@@ -92,7 +92,7 @@
   }
 
   /* ─── NAV ─── */
-  nav {
+  body > nav {
     position: fixed; top: 0; left: 0; right: 0;
     z-index: 500;
     padding: 12px 20px;
@@ -198,7 +198,7 @@
 
   /* ─── DESKTOP NAV (≥ 900px) ─── */
   @media (min-width: 900px) {
-    nav {
+    body > nav {
       padding: 14px 48px;
       z-index: 500;
     }
@@ -231,7 +231,7 @@
     .theme-toggle-li { margin-top: 0; }
   }
   @media (min-width: 1280px) {
-    nav { padding: 14px 72px; }
+    body > nav { padding: 14px 72px; }
     .logo-img { height: 72px; }
     .nav-links { gap: 36px; }
     .nav-cta { padding: 11px 26px !important; font-size: 13px !important; }
@@ -802,7 +802,7 @@
 
   /* ─── TABLET (≥ 640px) ─── */
   @media (min-width: 640px) {
-    nav { padding: 14px 32px; }
+    body > nav { padding: 14px 32px; }
     .logo-img { height: 54px; }
 
     .hero-left { padding: 120px 40px 72px; text-align: left; }
@@ -895,6 +895,6 @@
     footer { padding: 40px 16px 28px; }
 
     /* Tighter nav on very small screens */
-    nav { padding: 10px 16px; }
+    body > nav { padding: 10px 16px; }
     .logo-img { height: 40px; }
   }
