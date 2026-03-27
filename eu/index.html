@@ -776,9 +776,28 @@
 
       <div class="contact-infobar" role="note">
         <div class="contact-infobar-inner">
-          <div class="infobar-item"></div>
-          <div class="infobar-sep" aria-hidden="true"></div>
           <div class="infobar-item">
+            <span class="infobar-icon">📞</span>
+            <div>
+              <p class="infobar-label">Telefonoa</p>
+              <a href="tel:+34747425656" class="infobar-link">747 42 56 56</a>
+            </div>
+          </div>
+          <div class="infobar-sep" aria-hidden="true">•</div>
+          <div class="infobar-item">
+            <span class="infobar-icon">✉️</span>
+            <div>
+              <p class="infobar-label">Posta elektronikoa</p>
+              <a href="mailto:ventas3@tienclimatek.eus" class="infobar-link">ventas3@tienclimatek.eus</a>
+            </div>
+          </div>
+          <div class="infobar-sep" aria-hidden="true">•</div>
+          <div class="infobar-item">
+            <span class="infobar-icon">📍</span>
+            <div>
+              <p class="infobar-label">Kokalekua</p>
+              <p class="infobar-text">Beasain, Gipuzkoa</p>
+            </div>
           </div>
         </div>
       </div>
@@ -791,7 +810,12 @@
           <p class="contact-intro">Bete ondoko inprimakia eta ahalik eta lasterren jarriko gara zurekin harremanetan:
           </p>
 
-          <form class="cf-form" id="contactForm" novalidate aria-label="Kontaktu inprimakia">
+          <!-- GARRANTZITSUA: Aldatu action zure Formspree ID batekin
+               1. Joan https://formspree.io
+               2. Sortu inprimakia berria zure eposta batekin
+               3. Kopiatu zure ID-a (ad: f/mtjknbvy)
+               4. Aldatu YOUR_FORMSPREE_ID action-ean -->
+          <form class="cf-form" id="contactForm" method="POST" action="https://formspree.io/f/mwvwpwje" novalidate aria-label="Kontaktu inprimakia">
             <div class="cf-row">
               <label class="cf-label" for="cf-nombre">Izen-abizenak <span class="cf-req"
                   aria-label="Derrigorrezkoa">*</span></label>
@@ -845,26 +869,6 @@
                 <span><a href="../politika-pribatutasuna/" rel="noopener">Lege-oharra eta DBNP pribatutasun-politika</a>
                   onartzen dut <span class="cf-req">*</span></span>
               </label>
-            </div>
-
-            <div class="cf-row">
-              <label class="cf-label">Anti-Bot egiaztapena <span class="cf-req">*</span></label>
-              <div class="cf-captcha" role="group" aria-label="Anti-bot egiaztapena">
-                <label class="cf-captcha-inner">
-                  <input type="checkbox" id="cf-bot" name="bot" class="cf-checkbox" onchange="toggleCaptcha(this)" />
-                  <span class="cf-checkmark"></span>
-                  <span>Ez naiz robota</span>
-                </label>
-                <div class="cf-captcha-logo" aria-hidden="true">
-                  <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
-                    <circle cx="32" cy="32" r="30" stroke="#4A90D9" stroke-width="3" />
-                    <path d="M20 32c0-6.6 5.4-12 12-12s12 5.4 12 12-5.4 12-12 12" stroke="#4A90D9" stroke-width="3"
-                      stroke-linecap="round" />
-                    <circle cx="32" cy="32" r="4" fill="#4A90D9" />
-                  </svg>
-                  <span class="cf-captcha-text">reCAPTCHA<br><small>Pribatutasuna · Baldintzak</small></span>
-                </div>
-              </div>
             </div>
 
             <button class="cf-submit btn-primary" onclick="submitForm(event)" type="button"
@@ -1086,200 +1090,6 @@
   </footer>
 
   <script src="../js/main.js" defer></script>
-
-  <style>
-    /* ── Skip link ── */
-    .skip-link {
-      position: absolute;
-      top: -100px;
-      left: 16px;
-      z-index: 9999;
-      background: var(--yellow);
-      color: var(--dark);
-      padding: 10px 20px;
-      border-radius: 0 0 6px 6px;
-      font-weight: 700;
-      font-size: 14px;
-      text-decoration: none;
-      transition: top 0.2s;
-    }
-
-    .skip-link:focus {
-      top: 0;
-    }
-
-    /* ── Lang switch ── */
-    .lang-switch-li {
-      display: flex;
-      align-items: center;
-    }
-
-    .lang-switch {
-      font-size: 11px;
-      letter-spacing: 2px;
-      font-weight: 700;
-      color: var(--yellow);
-      text-decoration: none;
-      border: 1px solid var(--yellow);
-      border-radius: 4px;
-      padding: 4px 10px;
-      transition: all 0.2s;
-    }
-
-    .lang-switch:hover {
-      background: var(--yellow);
-      color: var(--dark);
-    }
-
-    .lang-switch-footer {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 13px;
-      transition: color 0.2s;
-    }
-
-    .lang-switch-footer:hover {
-      color: var(--yellow);
-    }
-
-    @media (min-width: 900px) {
-      .lang-switch-li {
-        margin-left: 4px;
-      }
-    }
-
-    /* ── Hero trust bar ── */
-    .hero-trust {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-top: 24px;
-    }
-
-    .trust-item {
-      font-size: 13px;
-      color: var(--text-muted);
-      letter-spacing: 0.3px;
-    }
-
-    /* ── Service CTA link ── */
-    .service-cta-link {
-      display: inline-block;
-      margin-top: 14px;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      color: var(--yellow);
-      text-decoration: none;
-      transition: letter-spacing 0.2s;
-    }
-
-    .service-cta-link:hover {
-      letter-spacing: 1.5px;
-    }
-
-    /* ── Form note ── */
-    .form-note {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 8px;
-    }
-
-    /* ── FAQ section ── */
-    .faq-section {
-      padding: 80px 20px;
-      background: var(--dark2);
-    }
-
-    .faq-inner {
-      max-width: 820px;
-      margin: 0 auto;
-    }
-
-    .faq-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 800;
-      font-size: clamp(36px, 3.5vw, 52px);
-      line-height: 1;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 40px;
-    }
-
-    .faq-list {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .faq-item {
-      background: var(--dark3);
-      border-radius: 6px;
-      overflow: hidden;
-    }
-
-    .faq-question {
-      margin: 0;
-    }
-
-    .faq-btn {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 20px 24px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--off-white);
-      text-align: left;
-      gap: 16px;
-      transition: background 0.2s;
-    }
-
-    .faq-btn:hover {
-      background: var(--mid);
-    }
-
-    .faq-btn[aria-expanded="true"] {
-      color: var(--yellow);
-    }
-
-    .faq-btn[aria-expanded="true"] .faq-icon {
-      transform: rotate(180deg);
-    }
-
-    .faq-icon {
-      flex-shrink: 0;
-      transition: transform 0.3s;
-    }
-
-    .faq-answer {
-      padding: 0 24px 20px;
-      font-size: 15px;
-      line-height: 1.7;
-      color: var(--text-muted);
-    }
-
-    .faq-answer a {
-      color: var(--blue-light);
-    }
-
-    @media (min-width: 900px) {
-      .faq-section {
-        padding: 100px 60px;
-      }
-    }
-
-    @media (min-width: 1280px) {
-      .faq-section {
-        padding: 100px 80px;
-      }
-    }
-  </style>
 
 </body>
 

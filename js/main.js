@@ -13,14 +13,28 @@
 
   const i18n = {
     es: {
-      rgpd:    'Debes aceptar la política de privacidad RGPD para continuar.',
-      bot:     'Por favor, confirma que no eres un robot.',
-      sending: 'Enviando…',
+      rgpd:     'Debes aceptar la política de privacidad RGPD para continuar.',
+      reCAPTCHA: 'Por favor, completa la verificación reCAPTCHA.',
+      sending:  'Enviando…',
+      error:    'Error al enviar. Por favor, intenta de nuevo.',
+      success:  'Mensaje enviado correctamente.',
+      nameReq:  'El nombre es obligatorio',
+      cpReq:    'El código postal es obligatorio',
+      telReq:   'El teléfono es obligatorio',
+      mailReq:  'Correo electrónico inválido',
+      commentReq: 'El comentario es obligatorio',
     },
     eu: {
-      rgpd:    'DBNP pribatutasun-politika onartu behar duzu jarraitzeko.',
-      bot:     'Mesedez, berretsi ez zarela robota.',
-      sending: 'Bidaltzen…',
+      rgpd:     'DBNP pribatutasun-politika onartu behar duzu jarraitzeko.',
+      reCAPTCHA: 'Mesedez, reCAPTCHA egiaztapena bete.',
+      sending:  'Bidaltzen…',
+      error:    'Errore bat egon da bidaltzean. Birprobatu, mesedez.',
+      success:  'Mezua zuzen bidali da.',
+      nameReq:  'Izena derrigorrezkoa da',
+      cpReq:    'Posta kodea derrigorrezkoa da',
+      telReq:   'Telefonoa derrigorrezkoa da',
+      mailReq:  'Eposta baliogabea',
+      commentReq: 'Iruzkina derrigorrezkoa da',
     },
   };
   const t = isEU ? i18n.eu : i18n.es;
@@ -141,77 +155,131 @@
     });
   });
 
-  /* ─── CONTACT FORM ───────────────────────────────────────────── */
-  window.toggleCaptcha = function (cb) {
-    // Visual-only captcha marker
+  /* ─── CONTACT FORM with reCAPTCHA v3 & Formspree ─────────────── */
+  
+  // Helper: Show validation error message
+  const showErrorMsg = (field, message) => {
+    const existing = field.nextElementSibling;
+    if (existing && existing.classList.contains('cf-error-msg')) {
+      existing.remove();
+    }
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'cf-error-msg';
+    errorDiv.textContent = message;
+    field.parentNode.insertBefore(errorDiv, field.nextSibling);
+    field.setAttribute('aria-invalid', 'true');
   };
 
-  window.submitForm = function (e) {
+  // Helper: Clear validation error message
+  const clearErrorMsg = (field) => {
+    const existing = field.nextElementSibling;
+    if (existing && existing.classList.contains('cf-error-msg')) {
+      existing.remove();
+    }
+    field.removeAttribute('aria-invalid');
+  };
+
+  window.submitForm = async function (e) {
     e.preventDefault();
 
+    const form = document.getElementById('contactForm');
     const nombre = document.getElementById('cf-nombre');
     const cp     = document.getElementById('cf-cp');
     const tel    = document.getElementById('cf-tel');
     const mail   = document.getElementById('cf-mail');
     const coment = document.getElementById('cf-comentario');
     const rgpd   = document.getElementById('cf-rgpd');
-    const bot    = document.getElementById('cf-bot');
+    const recaptchaToken = document.getElementById('recaptchaToken');
+    const submitBtn = document.querySelector('.cf-submit');
 
     if (!nombre || !cp || !tel || !mail || !coment) return;
 
-    // Reset
-    [nombre, cp, tel, mail, coment].forEach(i => {
-      i.style.borderColor = '';
-      i.removeAttribute('aria-invalid');
-    });
+    // Clear all error messages first
+    [nombre, cp, tel, mail, coment].forEach(i => clearErrorMsg(i));
 
     let ok = true;
-    const markInvalid = field => {
-      field.style.borderColor = '#cc0033';
-      field.setAttribute('aria-invalid', 'true');
-      ok = false;
-    };
 
-    if (!nombre.value.trim())                       markInvalid(nombre);
-    if (!cp.value.trim())                           markInvalid(cp);
-    if (!tel.value.trim())                          markInvalid(tel);
-    if (!mail.value.trim() || !mail.value.includes('@')) markInvalid(mail);
-    if (!coment.value.trim())                       markInvalid(coment);
-    if (rgpd && !rgpd.checked) {
-      alert(t.rgpd);
+    if (!nombre.value.trim()) {
+      showErrorMsg(nombre, t.nameReq);
       ok = false;
     }
-    if (ok && bot && !bot.checked) {
-      alert(t.bot);
+    if (!cp.value.trim()) {
+      showErrorMsg(cp, t.cpReq);
+      ok = false;
+    }
+    if (!tel.value.trim()) {
+      showErrorMsg(tel, t.telReq);
+      ok = false;
+    }
+    if (!mail.value.trim() || !mail.value.includes('@')) {
+      showErrorMsg(mail, t.mailReq);
+      ok = false;
+    }
+    if (!coment.value.trim()) {
+      showErrorMsg(coment, t.commentReq);
+      ok = false;
+    }
+    if (rgpd && !rgpd.checked) {
+      showErrorMsg(rgpd, t.rgpd);
       ok = false;
     }
 
     if (!ok) {
-      // Focus first invalid field
       const first = document.querySelector('[aria-invalid="true"]');
       if (first) first.focus();
       return;
     }
 
-    // Simulate send
-    const submitBtn = document.querySelector('.cf-submit');
-    if (submitBtn) {
+    try {
       submitBtn.textContent = t.sending;
-      submitBtn.disabled    = true;
-    }
+      submitBtn.disabled = true;
 
-    setTimeout(() => {
-      const success = document.getElementById('cfSuccess');
-      if (success) success.classList.add('show');
-      if (submitBtn) submitBtn.style.display = 'none';
+      // Submit form to Formspree
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
 
-      const form = document.getElementById('contactForm');
-      if (form) {
-        form.querySelectorAll('.cf-input').forEach(i => { i.value = ''; });
-        if (rgpd) rgpd.checked = false;
-        if (bot)  bot.checked  = false;
+      if (response.ok) {
+        const success = document.getElementById('cfSuccess');
+        if (success) {
+          success.classList.remove('error');
+          success.classList.add('show');
+        }
+        
+        // Reset form
+        form.reset();
+        submitBtn.textContent = isEU ? 'Bidali' : 'Enviar';
+        submitBtn.style.display = 'none';
+
+        // Restore button after delay
+        setTimeout(() => {
+          submitBtn.style.display = '';
+          submitBtn.disabled = false;
+        }, 5000);
+      } else {
+        const success = document.getElementById('cfSuccess');
+        if (success) {
+          success.textContent = t.error;
+          success.classList.add('show', 'error');
+        }
+        submitBtn.textContent = isEU ? 'Bidali' : 'Enviar';
+        submitBtn.disabled = false;
       }
-    }, 1200);
+    } catch (error) {
+      console.error('Form submission error:', error);
+      const success = document.getElementById('cfSuccess');
+      if (success) {
+        success.textContent = t.error;
+        success.classList.add('show', 'error');
+      }
+      submitBtn.textContent = isEU ? 'Bidali' : 'Enviar';
+      submitBtn.disabled = false;
+    }
   };
 
   /* ─── SMOOTH SCROLL for anchor links ────────────────────────── */
@@ -225,11 +293,15 @@
         const navHeight = nav ? nav.offsetHeight : 0;
         const top = target.getBoundingClientRect().top + window.scrollY - navHeight - 16;
         window.scrollTo({ top, behavior: 'smooth' });
-        // Update URL without jump
-        history.pushState(null, '', id);
+        // Update URL without jump (using replaceState to avoid history pollution)
+        history.replaceState(null, '', id);
         // Focus for accessibility
         target.setAttribute('tabindex', '-1');
         target.focus({ preventScroll: true });
+        // Clean up tabindex after focus is set
+        target.addEventListener('blur', () => {
+          target.removeAttribute('tabindex');
+        }, { once: true });
       }
     });
   });
