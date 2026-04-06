@@ -89,6 +89,121 @@
     font-weight: 300;
     overflow-x: hidden;
     transition: background 0.35s, color 0.35s;
+    margin-top: 32px;
+  }
+
+  /* ═══ TOP BAR EMERGENCIA (Sticky, aparece al scrollear) ═════════════════ */
+  .topbar-emergency {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 510;
+    background: linear-gradient(90deg, #d32f2f 0%, #f57c00 100%);
+    padding: 10px 20px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(211, 47, 47, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  }
+
+  .topbar-emergency.topbar-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  @media (min-width: 900px) {
+    .topbar-emergency.topbar-visible {
+      display: block;
+    }
+  }
+
+  .topbar-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+  }
+
+  .topbar-link:hover {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  }
+
+  .topbar-pulse {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    animation: pulse-animation 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse-animation {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+    }
+  }
+
+  /* ═══ MOBILE FLOATING BUTTON ═════════════════════════════════════════ */
+  .mobile-float-btn {
+    display: flex;
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    z-index: 400;
+  }
+
+  @media (min-width: 900px) {
+    .mobile-float-btn {
+      display: none;
+    }
+  }
+
+  .mobile-float-btn a {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d32f2f 0%, #f57c00 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(211, 47, 47, 0.35);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: float-pulse 2s ease-in-out infinite;
+  }
+
+  .mobile-float-btn a:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(211, 47, 47, 0.25);
+  }
+
+  @keyframes float-pulse {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  /* ─── DESKTOP PHONE NUMBERS (Base - hidden on mobile) ─── */
+  .nav-desktop-phones {
+    display: none;
   }
 
   /* ─── NAV ─── */
@@ -102,7 +217,10 @@
     border-bottom: 1px solid var(--nav-border);
     transition: background 0.35s;
   }
-  .logo-img { height: 48px; width: auto; display: block; }
+  .logo-img { height: 60px; width: auto; display: block; }
+
+  /* ─── PHONE NUMBERS IN NAV (deprecated - removed from HTML) ─── */
+  .nav-phone { display: none !important; }
 
   /* ─── HAMBURGER SPANS ─── */
   .nav-hamburger span {
@@ -156,10 +274,6 @@
   .nav-links > li:has(.nav-cta) {
     margin-top: 14px;
     padding-top: 14px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-  }
-  [data-theme="light"] .nav-links > li:has(.nav-cta) {
-    border-top-color: rgba(0,0,0,0.1);
   }
   .nav-cta {
     background: var(--yellow) !important;
@@ -171,18 +285,12 @@
     display: inline-block;
   }
   .nav-cta:hover { background: var(--yellow-dark) !important; }
-  /* Theme toggle row with decorative dividers */
+  /* Theme toggle row */
   .theme-toggle-li {
     margin-top: 22px;
     display: flex; align-items: center; justify-content: center; gap: 14px;
     width: 100%;
   }
-  .theme-toggle-li::before,
-  .theme-toggle-li::after {
-    content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08);
-  }
-  [data-theme="light"] .theme-toggle-li::before,
-  [data-theme="light"] .theme-toggle-li::after { background: rgba(0,0,0,0.1); }
   /* Lang switch row */
   .lang-switch-li {
     display: flex; align-items: center; justify-content: center;
@@ -201,8 +309,10 @@
     body > nav {
       padding: 14px 48px;
       z-index: 500;
+      position: relative;
+      top: auto;
     }
-    .logo-img { height: 68px; }
+    .logo-img { height: 105px; }
     .nav-hamburger { display: none; }
     .nav-links {
       /* Reset overlay styles */
@@ -211,7 +321,7 @@
       flex-direction: row;
       align-items: center;
       justify-content: flex-end;
-      gap: 32px;
+      gap: 24px;
       background: none;
       padding: 0;
       visibility: visible;
@@ -231,11 +341,51 @@
     .theme-toggle-li { margin-top: 0; }
   }
   @media (min-width: 1280px) {
-    body > nav { padding: 14px 72px; }
-    .logo-img { height: 72px; }
-    .nav-links { gap: 36px; }
+    body > nav { 
+      padding: 14px 72px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 40px;
+    }
+    .logo-img { height: 116px; }
+    .nav-links { gap: 28px; }
     .nav-cta { padding: 11px 26px !important; font-size: 13px !important; }
     .nav-links li a { font-size: 13px; }
+
+    /* Desktop phone numbers in top-right corner */
+    .nav-desktop-phones {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .nav-desktop-phones a {
+      text-decoration: none;
+      transition: all 0.2s;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-desktop-phones-normal {
+      color: var(--text-muted);
+    }
+
+    .nav-desktop-phones-normal:hover {
+      color: var(--yellow);
+    }
+
+    .nav-desktop-phones-emergency {
+      color: #ff5722;
+      font-weight: 700;
+    }
+
+    .nav-desktop-phones-emergency:hover {
+      color: #ff7043;
+      text-shadow: 0 0 8px rgba(255, 87, 34, 0.3);
+    }
   }
 
   /* ─── HERO ─── */

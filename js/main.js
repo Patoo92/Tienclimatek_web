@@ -124,11 +124,13 @@
     });
   }
 
-  /* ─── STICKY NAV: shadow on scroll ──────────────────────────── */
+  /* ─── STICKY NAV: shadow on scroll & TOPBAR EMERGENCIA ──────── */
   const nav = document.querySelector('nav');
-  if (nav) {
+  const topbar = document.querySelector('.topbar-emergency');
+  if (nav || topbar) {
     window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 20);
+      if (nav) nav.classList.toggle('scrolled', window.scrollY > 20);
+      if (topbar) topbar.classList.toggle('topbar-visible', window.scrollY > 200);
     }, { passive: true });
   }
 
