@@ -5,17 +5,6 @@ Página web profesional de Tienclimatek, especializada en instalación y manteni
 ## 📋 Tabla de Contenidos
 
 1. [Estructura del Proyecto](#estructura-del-proyecto)
-2. [Instalación y Configuración](#instalación-y-configuración)
-3. [Características Principales](#características-principales)
-4. [Guía de Componentes](#guía-de-componentes)
-5. [Sistema de Temas](#sistema-de-temas)
-6. [Formulario de Contacto](#formulario-de-contacto)
-7. [SEO y Metadata](#seo-y-metadata)
-8. [Accesibilidad](#accesibilidad)
-9. [Mobile-First Responsive](#mobile-first-responsive)
-10. [Rendimiento](#rendimiento)
-11. [Mejoras Futuras](#mejoras-futuras)
-
 ---
 
 ## 📁 Estructura del Proyecto
@@ -63,8 +52,6 @@ El formulario envía datos a través de [Formspree](https://formspree.io):
 3. Crea un nuevo formulario (proyecto)
 4. Copia tu **Form ID** (formato: `mtjknbvy`)
 5. Reemplaza `YOUR_FORMSPREE_ID` en:
-   - `index.html` línea ~807
-   - `eu/index.html` línea ~807 (URLs limpias - sin sufijo _eu)
 
 **Ejemplo:**
 ```html
@@ -87,9 +74,8 @@ Se recomienda SSL/TLS para proteger datos del formulario. Recibirás advertencia
 ### 📱 Componentes
 - **Navegación fija** con hamburger menu en mobile
 - **Hero section** con animación y gradiente
+- **Promociones** campañas de SD y VAILLANT
 - **Grid de servicios** (8 tarjetas, 4 en escritorio)
-- **Carrusel de marcas** con scroll infinito
-- **Sección de zonas** geográficas
 - **Proceso de 4 pasos**
 - **FAQ Accordion** interactivo con keyboard navigation
 - **Formulario de contacto** con validación inline
