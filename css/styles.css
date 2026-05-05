@@ -92,7 +92,7 @@
     margin-top: 32px;
   }
 
-  /* ═══ TOP BAR EMERGENCIA (Sticky, aparece al scrollear) ═════════════════ */
+  /* ═══ TOP BAR EMERGENCIA ═════════════════ */
   .topbar-emergency {
     position: fixed;
     top: 0;
@@ -201,7 +201,7 @@
     }
   }
 
-  /* ─── DESKTOP PHONE NUMBERS (Base - hidden on mobile) ─── */
+  /* ─── DESKTOP PHONE NUMBERS ─── */
   .nav-desktop-phones {
     display: none;
   }
@@ -1087,12 +1087,6 @@
     body > nav { padding: 10px 16px; }
     .logo-img { height: 40px; }
   }
-
-  /* ─────────────────────────────────────
-     CONSOLIDATED STYLES (formerly in HTML)
-     Skip links, Lang switch, Hero trust,
-     Service CTA, Form notes, FAQ section
-  ───────────────────────────────────────── */
 
   /* Skip link */
   .skip-link {

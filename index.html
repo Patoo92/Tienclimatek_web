@@ -497,350 +497,402 @@
     <!-- /SERVICIOS -->
 
     <!-- ── PROMOCIONES ───────────────────────────────────────────────── -->
-    <section id="promociones" aria-labelledby="promo-title">
-      <style>
-        /* ── PROMO SECTION ── */
-        #promociones { padding: 90px 0 100px; }
-        .promo-wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
-        .promo-header { text-align: center; margin-bottom: 60px; }
-        .promo-header .section-tag { justify-content: center; }
-        .promo-header h2 { font-size: clamp(1.9rem, 3.5vw, 2.9rem); font-weight: 800; margin: 8px 0 0; color: var(--text-primary, #fff); }
-        [data-theme="light"] .promo-header h2 { color: #111; }
+     <!-- ══ PROMOCIONES — Carrusel automático banners oficiales ══════════════ -->
+<section id="promociones" aria-labelledby="promo-title">
+<style>
+  /* ── SECTION ── */
+  #promociones {
+    padding: 90px 0 100px;
+    background: var(--dark2, #111620);
+  }
+  [data-theme="light"] #promociones {
+    background: var(--dark2, #E4EAF4);
+  }
 
-        .promo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .promo-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
 
-        .promo-card { border-radius: 20px; overflow: hidden; background: var(--card-bg, #181c24); border: 1px solid rgba(255,255,255,0.07); display: flex; flex-direction: column; transition: transform .25s, box-shadow .25s; }
-        .promo-card:hover { transform: translateY(-5px); box-shadow: 0 24px 60px rgba(0,0,0,.45); }
-        [data-theme="light"] .promo-card { background: #fff; border: 1px solid #e5e5e5; }
-        [data-theme="light"] .promo-card:hover { box-shadow: 0 24px 60px rgba(0,0,0,.12); }
+  .promo-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .promo-header .section-tag { justify-content: center; }
+  .promo-header h2 {
+    font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+    font-weight: 800;
+    margin: 8px 0 0;
+    color: var(--off-white, #F4F6FA);
+  }
+  [data-theme="light"] .promo-header h2 { color: #111; }
 
-        .promo-head { padding: 20px 24px 0; }
-        .promo-head-sd { background: #C8001A; }
-        .promo-head-v  { background: #007A3D; }
+  /* ── CARRUSEL ── */
+  .promo-carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 16px;
+  }
 
-        .promo-head-toprow { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; gap: 12px; }
-        .promo-logo-pill { background: #fff; border-radius: 10px; padding: 6px 14px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .promo-logo-pill img { height: 30px; width: auto; max-width: 130px; object-fit: contain; display: block; }
-        .promo-date-pill { font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: rgba(255,255,255,.8); background: rgba(0,0,0,.22); padding: 5px 12px; border-radius: 999px; white-space: nowrap; }
+  .promo-track {
+    display: flex;
+    width: 800%;
+    transition: transform .7s cubic-bezier(.4,0,.2,1);
+    will-change: transform;
+  }
 
-        .promo-tabs { display: flex; }
-        .promo-tab-btn { flex: 1; padding: 10px 0; text-align: center; font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: rgba(255,255,255,.45); border: none; background: transparent; cursor: pointer; border-bottom: 3px solid transparent; transition: color .18s, border-color .18s; }
-        .promo-tab-btn:hover { color: rgba(255,255,255,.75); }
-        .promo-tab-btn.active-sd { color: #fff; border-bottom-color: #fff; }
-        .promo-tab-btn.active-v  { color: #fff; border-bottom-color: #F0A500; }
+  /* ── SLIDE ── */
+  .promo-slide {
+    width: 12.5%;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
 
-        .promo-panel { display: none; padding: 22px 24px 26px; flex: 1; flex-direction: column; }
-        .promo-panel.visible { display: flex; }
+  .promo-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.35);
+  }
+  [data-theme="light"] .promo-slide img {
+    box-shadow: 0 4px 24px rgba(0,0,0,.12);
+  }
 
-        .promo-amount-row { display: flex; align-items: baseline; gap: 4px; margin-bottom: 2px; }
-        .promo-amount-big { font-size: 58px; font-weight: 800; line-height: 1; color: var(--text-primary, #fff); }
-        [data-theme="light"] .promo-amount-big { color: #111; }
-        .promo-amount-curr { font-size: 24px; font-weight: 700; color: var(--text-secondary, rgba(255,255,255,.55)); }
-        [data-theme="light"] .promo-amount-curr { color: #777; }
-        .promo-amount-sub { font-size: 12px; color: var(--text-secondary, rgba(255,255,255,.5)); margin-bottom: 16px; }
-        [data-theme="light"] .promo-amount-sub { color: #888; }
+  /* ── BARRA DE PROGRESO ── */
+  .promo-progress-wrap {
+    margin-top: 20px;
+    height: 3px;
+    background: rgba(255,255,255,.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  [data-theme="light"] .promo-progress-wrap {
+    background: rgba(0,0,0,.08);
+  }
+  .promo-progress-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 2px;
+    transition: width linear;
+    background: linear-gradient(90deg, #E2001A 0%, #007A3D 100%);
+  }
 
-        .promo-bonus { display: flex; align-items: flex-start; gap: 9px; font-size: 12px; line-height: 1.5; padding: 9px 13px; border-radius: 10px; margin-bottom: 14px; }
-        .promo-bonus-icon { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; flex-shrink: 0; margin-top: 1px; }
-        .promo-bonus.blue { background: rgba(26,126,200,.15); color: #60aaed; border: 1px solid rgba(26,126,200,.3); }
-        [data-theme="light"] .promo-bonus.blue { background: #e6f1fb; color: #185fa5; border-color: #b5d4f4; }
-        .promo-bonus.blue .promo-bonus-icon { background: #1A7EC8; color: #fff; }
+  /* ── INDICADORES ── */
+  .promo-indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+  .promo-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.18);
+    transition: width .3s, border-radius .3s, background .3s;
+    flex-shrink: 0;
+  }
+  [data-theme="light"] .promo-indicator { background: rgba(0,0,0,.12); }
+  .promo-indicator.active { width: 20px; border-radius: 3px; }
+  .promo-indicator.active.brand-sd { background: #E2001A; }
+  .promo-indicator.active.brand-v  { background: #007A3D; }
+  .promo-ind-sep {
+    width: 1px; height: 12px;
+    background: rgba(255,255,255,.14);
+    border-radius: 1px;
+    margin: 0 4px; flex-shrink: 0;
+  }
+  [data-theme="light"] .promo-ind-sep { background: rgba(0,0,0,.1); }
 
-        .promo-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
-        .promo-tier { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 12px 8px; text-align: center; }
-        [data-theme="light"] .promo-tier { background: #f5f5f5; border-color: #e0e0e0; }
-        .promo-tier-amt { font-size: 20px; font-weight: 800; line-height: 1; margin-bottom: 5px; }
-        .promo-tier-amt.sd { color: #ff6680; }
-        .promo-tier-amt.v  { color: #4dd98a; }
-        [data-theme="light"] .promo-tier-amt.sd { color: #C8001A; }
-        [data-theme="light"] .promo-tier-amt.v  { color: #007A3D; }
-        .promo-tier-desc { font-size: 10px; color: var(--text-secondary, rgba(255,255,255,.5)); line-height: 1.45; }
-        [data-theme="light"] .promo-tier-desc { color: #666; }
+  /* ── LABEL ── */
+  .promo-slide-info {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-muted, #8090aa);
+    min-height: 18px;
+  }
 
-        .promo-tiers-aa { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-        .promo-tier-aa { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 13px 10px; }
-        [data-theme="light"] .promo-tier-aa { background: #f5f5f5; border-color: #e0e0e0; }
-        .promo-tier-aa-label { font-size: 9px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--text-secondary, rgba(255,255,255,.4)); margin-bottom: 3px; }
-        [data-theme="light"] .promo-tier-aa-label { color: #999; }
-        .promo-tier-aa-model { font-size: 11px; font-style: italic; color: var(--text-secondary, rgba(255,255,255,.6)); margin-bottom: 7px; line-height: 1.35; }
-        [data-theme="light"] .promo-tier-aa-model { color: #555; }
-        .promo-tier-aa-amt { font-size: 19px; font-weight: 800; }
-        .promo-tier-aa-amt.sd { color: #ff6680; }
-        .promo-tier-aa-amt.v  { color: #4dd98a; }
-        [data-theme="light"] .promo-tier-aa-amt.sd { color: #C8001A; }
-        [data-theme="light"] .promo-tier-aa-amt.v  { color: #007A3D; }
+  /* ── CTA ── */
+  .promo-cta-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 36px;
+  }
+  .promo-cta-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 14px 36px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-decoration: none;
+    background: var(--blue, #1A7EC8);
+    color: #fff;
+    transition: opacity .18s, transform .15s, box-shadow .18s;
+  }
+  .promo-cta-main:hover {
+    opacity: .9;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(26,126,200,.4);
+  }
 
-        .promo-how { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 13px 15px; margin-bottom: 16px; }
-        [data-theme="light"] .promo-how { background: #f7f7f7; border-color: #e8e8e8; }
-        .promo-how-title { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-secondary, rgba(255,255,255,.35)); margin-bottom: 9px; }
-        [data-theme="light"] .promo-how-title { color: #aaa; }
-        .promo-how-step { font-size: 12px; color: var(--text-secondary, rgba(255,255,255,.65)); margin-bottom: 5px; line-height: 1.55; }
-        .promo-how-step:last-child { margin-bottom: 0; }
-        [data-theme="light"] .promo-how-step { color: #444; }
-        .promo-how-step strong { color: var(--text-primary, #fff); }
-        [data-theme="light"] .promo-how-step strong { color: #111; }
-        .promo-code { display: inline-block; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 5px; padding: 1px 7px; font-family: monospace; font-size: 11px; font-weight: 700; color: #fff; }
-        [data-theme="light"] .promo-code { background: rgba(0,0,0,.06); border-color: rgba(0,0,0,.15); color: #222; }
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    #promociones { padding: 60px 0 70px; }
+    .promo-wrap  { padding: 0 20px; }
+    .promo-slide img { border-radius: 10px; }
+    .promo-carousel  { border-radius: 12px; }
+  }
+  @media (max-width: 480px) {
+    .promo-wrap { padding: 0 12px; }
+    .promo-slide img { border-radius: 8px; }
+    .promo-carousel  { border-radius: 8px; }
+  }
+</style>
 
-        .promo-dates-box { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 13px 15px; margin-bottom: 16px; }
-        [data-theme="light"] .promo-dates-box { background: #f7f7f7; border-color: #e8e8e8; }
-        .promo-dates-box-title { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-secondary, rgba(255,255,255,.35)); margin-bottom: 9px; }
-        [data-theme="light"] .promo-dates-box-title { color: #aaa; }
-        .promo-date-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 5px; font-size: 12px; }
-        .promo-date-row:last-child { margin-bottom: 0; }
-        .promo-date-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; }
-        .promo-date-dot.red  { background: #ff6680; }
-        .promo-date-dot.blue { background: #1A7EC8; }
-        [data-theme="light"] .promo-date-dot.red { background: #C8001A; }
-        .promo-date-label { color: var(--text-secondary, rgba(255,255,255,.5)); }
-        [data-theme="light"] .promo-date-label { color: #888; }
-        .promo-date-val { font-weight: 700; color: var(--text-primary, #fff); }
-        [data-theme="light"] .promo-date-val { color: #111; }
+  <div class="promo-wrap">
 
-        .promo-cta-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: 700; letter-spacing: .04em; cursor: pointer; border: none; margin-top: auto; text-decoration: none; transition: opacity .18s, transform .15s; }
-        .promo-cta-btn:hover { opacity: .88; transform: scale(.985); }
-        .promo-cta-btn.sd { background: #E2001A; color: #fff; }
-        .promo-cta-btn.v  { background: #007A3D; color: #fff; }
+    <!-- Header -->
+    <div class="promo-header reveal">
+      <p class="section-tag">Ofertas vigentes</p>
+      <h2 id="promo-title">Campañas oficiales<br>de nuestras marcas</h2>
+    </div>
 
-        @media (max-width: 900px) {
-          .promo-grid { grid-template-columns: 1fr; }
-          .promo-wrap { padding: 0 20px; }
-          .promo-tiers { grid-template-columns: 1fr; }
-          #promociones { padding: 60px 0 70px; }
-        }
-        @media (max-width: 480px) {
-          .promo-tiers-aa { grid-template-columns: 1fr; }
-        }
-      </style>
+    <!-- Carrusel -->
+    <div class="promo-carousel reveal reveal-delay-1"
+         id="promoCarousel"
+         role="region"
+         aria-label="Campañas promocionales Saunier Duval y Vaillant"
+         aria-roledescription="carrusel">
 
-      <div class="promo-wrap">
-        <div class="promo-header reveal">
-          <p class="section-tag">Ofertas vigentes</p>
-          <h2 id="promo-title">Promociones exclusivas<br>para nuestros clientes</h2>
+      <div class="promo-track" id="promoTrack">
+
+        <div class="promo-slide" role="group" aria-roledescription="diapositiva" aria-label="1 de 8 — Saunier Duval Calderas">
+          <img src="assets/images/SD_CALDERAS.png"
+               alt="Saunier Duval — Hasta 350€ con tu nueva caldera. Del 4 de mayo al 30 de junio de 2026."
+               loading="eager" fetchpriority="high" />
         </div>
 
-        <div class="promo-grid">
+        <div class="promo-slide" role="group" aria-roledescription="diapositiva" aria-label="2 de 8 — Saunier Duval Calderas, condiciones">
+          <img src="assets/images/SD_CALDERAS_1.png"
+               alt="Saunier Duval Calderas — Condiciones. Código INCQ2/26. Puesta en marcha antes del 31 de julio de 2026."
+               loading="lazy" />
+        </div>
 
-          <!-- SAUNIER DUVAL -->
-          <div class="promo-card reveal reveal-delay-1">
-            <div class="promo-head promo-head-sd">
-              <div class="promo-head-toprow">
-                <div class="promo-logo-pill">
-                  <img src="assets/images/logos/logo-saunier-duval.jpg" alt="Saunier Duval"
-                    onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='block';" />
-                  <span style="display:none;font-size:13px;font-weight:800;color:#C8001A;">Saunier Duval</span>
-                </div>
-                <span class="promo-date-pill" id="sd-date-pill">4 may – 30 jun 2026</span>
-              </div>
-              <div class="promo-tabs" role="tablist" aria-label="Promociones Saunier Duval">
-                <button class="promo-tab-btn active-sd" role="tab" aria-selected="true"
-                  aria-controls="sd-panel-calderas" id="sd-tab-calderas"
-                  onclick="switchTab('sd','calderas')">Calderas</button>
-                <button class="promo-tab-btn" role="tab" aria-selected="false"
-                  aria-controls="sd-panel-aa" id="sd-tab-aa"
-                  onclick="switchTab('sd','aa')">Aire acondicionado</button>
-              </div>
-            </div>
+        <div class="promo-slide" role="group" aria-roledescription="diapositiva" aria-label="3 de 8 — Saunier Duval Aire Acondicionado">
+          <img src="assets/images/SD_AA.png"
+               alt="Saunier Duval — 150€ por tu nuevo aire acondicionado VivAir Max y VivAir Lite. Del 4 de mayo al 31 de julio. Puesta en marcha gratuita."
+               loading="lazy" />
+        </div>
 
-            <!-- SD: Panel Calderas -->
-            <div class="promo-panel visible" id="sd-panel-calderas" role="tabpanel" aria-labelledby="sd-tab-calderas">
-              <div class="promo-amount-row">
-                <span class="promo-amount-big">350</span>
-                <span class="promo-amount-curr">€</span>
-              </div>
-              <p class="promo-amount-sub">Hasta · con tu nueva caldera</p>
-              <div class="promo-tiers">
-                <div class="promo-tier">
-                  <div class="promo-tier-amt sd">350€</div>
-                  <div class="promo-tier-desc">MiConnect® 30 kW o más</div>
-                </div>
-                <div class="promo-tier">
-                  <div class="promo-tier-amt sd">300€</div>
-                  <div class="promo-tier-desc">MiConnect® menos de 30 kW</div>
-                </div>
-                <div class="promo-tier">
-                  <div class="promo-tier-amt sd">100€</div>
-                  <div class="promo-tier-desc">ThemaTek Condens 25</div>
-                </div>
-              </div>
-              <div class="promo-how">
-                <div class="promo-how-title">Cómo conseguirlo</div>
-                <p class="promo-how-step">1. Adquiere tu nueva caldera Saunier Duval durante la promoción.</p>
-                <p class="promo-how-step">2. Solicita en <strong>saunierduval.es/inconformista</strong> antes del <strong>30 jun 2026</strong> con código <span class="promo-code">INCQ2/26</span></p>
-                <p class="promo-how-step">3. Puesta en marcha antes del <strong>31 julio 2026</strong>.</p>
-              </div>
-              <a href="#contacto" class="promo-cta-btn sd">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-                Solicitar presupuesto
-              </a>
-            </div>
+        <div class="promo-slide" role="group" aria-roledescription="diapositiva" aria-label="4 de 8 — Saunier Duval Aire Acondicionado, condiciones">
+          <img src="assets/images/SD_AA_1.png"
+               alt="Saunier Duval Aire Acondicionado — Condiciones. Código INCAIRE2/26. Puesta en marcha gratuita antes del 15 de septiembre de 2026."
+               loading="lazy" />
+        </div>
 
-            <!-- SD: Panel Aire Acondicionado -->
-            <div class="promo-panel" id="sd-panel-aa" role="tabpanel" aria-labelledby="sd-tab-aa">
-              <div class="promo-amount-row">
-                <span class="promo-amount-big">150</span>
-                <span class="promo-amount-curr">€</span>
-              </div>
-              <p class="promo-amount-sub">Por cada equipo · hasta 31 julio 2026</p>
-              <div class="promo-bonus blue">
-                <div class="promo-bonus-icon">✓</div>
-                <span><strong>Puesta en marcha gratuita</strong> en toda la gama. Instalación entre el 4 may y el 15 sep 2026.</span>
-              </div>
-              <div class="promo-tiers-aa">
-                <div class="promo-tier-aa">
-                  <div class="promo-tier-aa-label">Murales &amp; Multis</div>
-                  <div class="promo-tier-aa-model">VivAir Max</div>
-                  <div class="promo-tier-aa-amt sd">150€/equipo</div>
-                </div>
-                <div class="promo-tier-aa">
-                  <div class="promo-tier-aa-label">Conductos</div>
-                  <div class="promo-tier-aa-model">VivAir Lite</div>
-                  <div class="promo-tier-aa-amt sd">150€/equipo</div>
-                </div>
-              </div>
-              <div class="promo-dates-box">
-                <div class="promo-dates-box-title">Fechas clave</div>
-                <div class="promo-date-row">
-                  <div class="promo-date-dot red"></div>
-                  <span class="promo-date-label">Descuento 150€:</span>
-                  <span class="promo-date-val">puesta en marcha hasta 31 jul 2026</span>
-                </div>
-                <div class="promo-date-row">
-                  <div class="promo-date-dot blue"></div>
-                  <span class="promo-date-label">Puesta en marcha gratis:</span>
-                  <span class="promo-date-val">hasta 15 sep 2026</span>
-                </div>
-              </div>
-              <a href="#contacto" class="promo-cta-btn sd">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-                Solicitar presupuesto
-              </a>
-            </div>
-          </div>
-          <!-- /SAUNIER DUVAL -->
+        <div class="promo-slide" role="group" aria-roledescription="diapositiva" aria-label="5 de 8 — Vaillant Calderas">
+          <img src="assets/images/VAI_CALDERAS.png"
+               alt="Vaillant — Hasta 350€ para cambiar de caldera. Del 4 de mayo al 30 de junio de 2026. La mejor decisión."
+               loading="lazy" />
+        </div>
 
-          <!-- VAILLANT -->
-          <div class="promo-card reveal reveal-delay-2">
-            <div class="promo-head promo-head-v">
-              <div class="promo-head-toprow">
-                <div class="promo-logo-pill">
-                  <img src="assets/images/logos/logo-vaillant.webp" alt="Vaillant"
-                    onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='block';" />
-                  <span style="display:none;font-size:13px;font-weight:800;color:#007A3D;">Vaillant</span>
-                </div>
-                <span class="promo-date-pill" id="v-date-pill">4 may – 30 jun 2026</span>
-              </div>
-              <div class="promo-tabs" role="tablist" aria-label="Promociones Vaillant">
-                <button class="promo-tab-btn active-v" role="tab" aria-selected="true"
-                  aria-controls="v-panel-calderas" id="v-tab-calderas"
-                  onclick="switchTab('v','calderas')">Calderas</button>
-                <button class="promo-tab-btn" role="tab" aria-selected="false"
-                  aria-controls="v-panel-aa" id="v-tab-aa"
-                  onclick="switchTab('v','aa')">Aire acondicionado</button>
-              </div>
-            </div>
+        <div class="promo-slide" role="group" aria-roledescription="diapositiva" aria-label="6 de 8 — Vaillant Calderas, condiciones">
+          <img src="assets/images/VAI_CALDERAS_1.png"
+               alt="Vaillant Calderas — Condiciones. Código LASENALQ2/26. Puesta en marcha antes del 31 de julio de 2026."
+               loading="lazy" />
+        </div>
 
-            <!-- Vaillant: Panel Calderas -->
-            <div class="promo-panel visible" id="v-panel-calderas" role="tabpanel" aria-labelledby="v-tab-calderas">
-              <div class="promo-amount-row">
-                <span class="promo-amount-big">350</span>
-                <span class="promo-amount-curr">€</span>
-              </div>
-              <p class="promo-amount-sub">Hasta · para cambiar de caldera</p>
-              <div class="promo-tiers">
-                <div class="promo-tier">
-                  <div class="promo-tier-amt v">350€</div>
-                  <div class="promo-tier-desc">Calderas inteligentes 30 kW o más</div>
-                </div>
-                <div class="promo-tier">
-                  <div class="promo-tier-amt v">300€</div>
-                  <div class="promo-tier-desc">Calderas inteligentes menos de 30 kW</div>
-                </div>
-                <div class="promo-tier">
-                  <div class="promo-tier-amt v">100€</div>
-                  <div class="promo-tier-desc">ecoTEC intro con control incluido</div>
-                </div>
-              </div>
-              <div class="promo-how">
-                <div class="promo-how-title">Cómo conseguirlo</div>
-                <p class="promo-how-step">1. Adquiere e instala tu nueva caldera Vaillant durante la promoción.</p>
-                <p class="promo-how-step">2. Solicita en <strong>vaillant.es/la-señal-del-ahorro</strong> antes del <strong>30 jun 2026</strong> con código <span class="promo-code">LASENALQ2/26</span></p>
-                <p class="promo-how-step">3. Puesta en marcha antes del <strong>31 julio 2026</strong>.</p>
-              </div>
-              <a href="#contacto" class="promo-cta-btn v">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-                Solicitar presupuesto
-              </a>
-            </div>
+        <div class="promo-slide" role="group" aria-roledescription="diapositiva" aria-label="7 de 8 — Vaillant Aire Acondicionado">
+          <img src="assets/images/VAI_AA.png"
+               alt="Vaillant — 150€ de descuento en climaVAIR plus y climaVAIR pro. Del 4 de mayo al 31 de julio. Puesta en marcha gratuita."
+               loading="lazy" />
+        </div>
 
-            <!-- Vaillant: Panel Aire Acondicionado -->
-            <div class="promo-panel" id="v-panel-aa" role="tabpanel" aria-labelledby="v-tab-aa">
-              <div class="promo-amount-row">
-                <span class="promo-amount-big">150</span>
-                <span class="promo-amount-curr">€</span>
-              </div>
-              <p class="promo-amount-sub">Por cada equipo · hasta 31 julio 2026</p>
-              <div class="promo-bonus blue">
-                <div class="promo-bonus-icon">✓</div>
-                <span><strong>Puesta en marcha gratuita</strong> en toda la gama. Instalación entre el 4 may y el 15 sep 2026.</span>
-              </div>
-              <div class="promo-tiers-aa">
-                <div class="promo-tier-aa">
-                  <div class="promo-tier-aa-label">Murales &amp; Multis</div>
-                  <div class="promo-tier-aa-model">climaVAIR plus</div>
-                  <div class="promo-tier-aa-amt v">150€/equipo</div>
-                </div>
-                <div class="promo-tier-aa">
-                  <div class="promo-tier-aa-label">Conductos</div>
-                  <div class="promo-tier-aa-model">climaVAIR pro</div>
-                  <div class="promo-tier-aa-amt v">150€/equipo</div>
-                </div>
-              </div>
-              <div class="promo-dates-box">
-                <div class="promo-dates-box-title">Fechas clave</div>
-                <div class="promo-date-row">
-                  <div class="promo-date-dot red"></div>
-                  <span class="promo-date-label">Descuento 150€:</span>
-                  <span class="promo-date-val">puesta en marcha hasta 31 jul 2026</span>
-                </div>
-                <div class="promo-date-row">
-                  <div class="promo-date-dot blue"></div>
-                  <span class="promo-date-label">Puesta en marcha gratis:</span>
-                  <span class="promo-date-val">hasta 15 sep 2026</span>
-                </div>
-              </div>
-              <a href="#contacto" class="promo-cta-btn v">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-                Solicitar presupuesto
-              </a>
-            </div>
-          </div>
-          <!-- /VAILLANT -->
+        <div class="promo-slide" role="group" aria-roledescription="diapositiva" aria-label="8 de 8 — Vaillant Aire Acondicionado, condiciones">
+          <img src="assets/images/VAI_AA_1.png"
+               alt="Vaillant Aire Acondicionado — Condiciones. Código LASENALAIRE2/26. Puesta en marcha gratuita antes del 15 de septiembre de 2026."
+               loading="lazy" />
+        </div>
 
-        </div><!-- /promo-grid -->
-      </div><!-- /promo-wrap -->
+      </div><!-- /track -->
 
-      <script>
-        (function () {
-          var datePills = {
-            sd: { calderas: '4 may – 30 jun 2026', aa: '4 may – 31 jul 2026' },
-            v:  { calderas: '4 may – 30 jun 2026', aa: '4 may – 31 jul 2026' }
-          };
-          window.switchTab = function (brand, tab) {
-            var other      = tab === 'calderas' ? 'aa' : 'calderas';
-            var activeClass = brand === 'sd' ? 'active-sd' : 'active-v';
-            document.getElementById(brand + '-tab-' + tab).classList.add(activeClass);
-            document.getElementById(brand + '-tab-' + tab).setAttribute('aria-selected', 'true');
-            document.getElementById(brand + '-tab-' + other).classList.remove(activeClass);
-            document.getElementById(brand + '-tab-' + other).setAttribute('aria-selected', 'false');
-            document.getElementById(brand + '-panel-' + tab).classList.add('visible');
-            document.getElementById(brand + '-panel-' + other).classList.remove('visible');
-            var pill = document.getElementById(brand + '-date-pill');
-            if (pill) pill.textContent = datePills[brand][tab];
-          };
-        })();
-      </script>
-    </section>
+      <!-- Barra de progreso -->
+      <div class="promo-progress-wrap" aria-hidden="true">
+        <div class="promo-progress-bar" id="promoProgress"></div>
+      </div>
+
+    </div><!-- /carousel -->
+
+    <!-- Indicadores -->
+    <div class="promo-indicators" id="promoIndicators" aria-hidden="true">
+      <div class="promo-indicator brand-sd active" data-idx="0"></div>
+      <div class="promo-indicator brand-sd"         data-idx="1"></div>
+      <div class="promo-indicator brand-sd"         data-idx="2"></div>
+      <div class="promo-indicator brand-sd"         data-idx="3"></div>
+      <div class="promo-ind-sep"></div>
+      <div class="promo-indicator brand-v"          data-idx="4"></div>
+      <div class="promo-indicator brand-v"          data-idx="5"></div>
+      <div class="promo-indicator brand-v"          data-idx="6"></div>
+      <div class="promo-indicator brand-v"          data-idx="7"></div>
+    </div>
+
+    <!-- Label slide actual -->
+    <p class="promo-slide-info" id="promoSlideInfo" aria-live="polite"></p>
+
+    <!-- CTA -->
+    <div class="promo-cta-row">
+      <a href="#contacto" class="promo-cta-main">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+        </svg>
+        Solicitar presupuesto y aprovechar la promoción
+      </a>
+    </div>
+
+  </div><!-- /promo-wrap -->
+
+  <script>
+  (function () {
+    var TOTAL    = 8;
+    var INTERVAL = 5000;
+    var current  = 0;
+    var paused   = false;
+    var timer    = null;
+    var progTimer = null;
+
+    var track      = document.getElementById('promoTrack');
+    var progress   = document.getElementById('promoProgress');
+    var info       = document.getElementById('promoSlideInfo');
+    var carousel   = document.getElementById('promoCarousel');
+    var indicators = document.querySelectorAll('#promoIndicators .promo-indicator');
+
+    var LABELS = [
+      'Saunier Duval · Calderas',
+      'Saunier Duval · Calderas · Condiciones',
+      'Saunier Duval · Aire Acondicionado',
+      'Saunier Duval · Aire Acondicionado · Condiciones',
+      'Vaillant · Calderas',
+      'Vaillant · Calderas · Condiciones',
+      'Vaillant · Aire Acondicionado',
+      'Vaillant · Aire Acondicionado · Condiciones',
+    ];
+
+    /* ── IR A SLIDE ── */
+    function goTo(idx) {
+      current = ((idx % TOTAL) + TOTAL) % TOTAL;
+      track.style.transform = 'translateX(-' + (current * 12.5) + '%)';
+
+      indicators.forEach(function (dot, i) {
+        dot.classList.toggle('active', i === current);
+      });
+
+      if (info) info.textContent = LABELS[current];
+      restartProgress();
+    }
+
+    /* ── BARRA DE PROGRESO ── */
+    function restartProgress() {
+      if (!progress) return;
+      clearTimeout(progTimer);
+      progress.style.transition = 'none';
+      progress.style.width = '0%';
+      void progress.offsetWidth; /* reflow */
+      if (!paused) {
+        progress.style.transition = 'width ' + INTERVAL + 'ms linear';
+        progress.style.width = '100%';
+        progTimer = setTimeout(function () {
+          if (!paused) goTo(current + 1);
+        }, INTERVAL);
+      }
+    }
+
+    /* ── PAUSA ── */
+    function pauseCarousel() {
+      if (paused) return;
+      paused = true;
+      clearTimeout(progTimer);
+      clearInterval(timer);
+      if (progress) {
+        /* Congelar la barra en su posición actual */
+        var rect     = progress.getBoundingClientRect();
+        var wrapRect = progress.parentElement.getBoundingClientRect();
+        var pct      = wrapRect.width > 0 ? (rect.width / wrapRect.width * 100).toFixed(2) : 0;
+        progress.style.transition = 'none';
+        progress.style.width = pct + '%';
+      }
+    }
+
+    function resumeCarousel() {
+      if (!paused) return;
+      paused = false;
+      if (progress) {
+        var rect     = progress.getBoundingClientRect();
+        var wrapRect = progress.parentElement.getBoundingClientRect();
+        var pct      = wrapRect.width > 0 ? rect.width / wrapRect.width : 0;
+        var remaining = Math.max(300, Math.round(INTERVAL * (1 - pct)));
+        progress.style.transition = 'width ' + remaining + 'ms linear';
+        progress.style.width = '100%';
+        clearTimeout(progTimer);
+        progTimer = setTimeout(function () {
+          if (!paused) goTo(current + 1);
+        }, remaining);
+      }
+    }
+
+    /* ── EVENTOS ── */
+    if (carousel) {
+      carousel.addEventListener('mouseenter', pauseCarousel);
+      carousel.addEventListener('mouseleave', resumeCarousel);
+      carousel.addEventListener('focusin',    pauseCarousel);
+      carousel.addEventListener('focusout',   resumeCarousel);
+
+      /* Swipe táctil — bonus de usabilidad en móvil */
+      var txStart = 0;
+      carousel.addEventListener('touchstart', function (e) {
+        txStart = e.touches[0].clientX;
+        pauseCarousel();
+      }, { passive: true });
+
+      carousel.addEventListener('touchend', function (e) {
+        var dx = e.changedTouches[0].clientX - txStart;
+        if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+        resumeCarousel();
+      }, { passive: true });
+    }
+
+    /* ── prefers-reduced-motion ── */
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      track.style.transition = 'none';
+      INTERVAL = 9000;
+    }
+
+    /* ── INIT ── */
+    goTo(0);
+
+  })();
+  </script>
+
+</section>
+<!-- /PROMOCIONES -->
     <!-- /PROMOCIONES -->
 
     <!-- ── PROCESO ───────────────────────────────────────────────────── -->
