@@ -532,6 +532,8 @@
   .promo-carousel {
     position: relative;
     width: 100%;
+    max-width: 480px;        /* ← ancho máximo acorde al formato portrait */
+    margin: 0 auto;          /* ← centrado horizontal */
     overflow: hidden;
     border-radius: 16px;
   }
@@ -541,6 +543,7 @@
     width: 800%;
     transition: transform .7s cubic-bezier(.4,0,.2,1);
     will-change: transform;
+    align-items: flex-start;
   }
 
   /* ── SLIDE ── */
@@ -554,7 +557,7 @@
 
   .promo-slide img {
     width: 100%;
-    height: auto;
+    height: auto;            /* ← respeta el ratio natural del banner */
     display: block;
     object-fit: contain;
     pointer-events: none;
@@ -657,13 +660,13 @@
   @media (max-width: 900px) {
     #promociones { padding: 60px 0 70px; }
     .promo-wrap  { padding: 0 20px; }
+    .promo-carousel  { border-radius: 12px; max-width: 400px; }
     .promo-slide img { border-radius: 10px; }
-    .promo-carousel  { border-radius: 12px; }
   }
   @media (max-width: 480px) {
     .promo-wrap { padding: 0 12px; }
+    .promo-carousel  { border-radius: 8px; max-width: 100%; }
     .promo-slide img { border-radius: 8px; }
-    .promo-carousel  { border-radius: 8px; }
   }
 </style>
 
@@ -773,7 +776,7 @@
   <script>
   (function () {
     var TOTAL    = 8;
-    var INTERVAL = 5000;
+    var INTERVAL = 2500;
     var current  = 0;
     var paused   = false;
     var timer    = null;
