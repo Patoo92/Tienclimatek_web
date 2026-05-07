@@ -83,6 +83,16 @@
 
   <style>
     /* ══ HERO CAROUSEL ══════════════════════════════════════════════════ */
+
+    /* Wrapper exterior: separa del nav y da el fondo de relleno */
+    .hero-carousel-outer {
+      padding: 28px 32px 0;
+      background: var(--dark, #0B0F17);
+    }
+    [data-theme="light"] .hero-carousel-outer {
+      background: #E4EAF4;
+    }
+
     .hero-carousel-wrap {
       position: relative;
       width: 100%;
@@ -90,7 +100,18 @@
       min-height: 500px;
       overflow: hidden;
       background: #0B0F17;
+      border-radius: 20px;
+      border: 1.5px solid rgba(255,255,255,0.10);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.04),
+        0 8px 40px rgba(0,0,0,0.45),
+        0 2px 8px rgba(0,0,0,0.3);
     }
+    [data-theme="light"] .hero-carousel-wrap {
+      border: 1.5px solid rgba(0,0,0,0.10);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.14);
+    }
+
     .hero-carousel-track {
       display: flex;
       height: 100%;
@@ -102,12 +123,12 @@
       width: 100%;
       height: 100%;
       position: relative;
-      background: #0B0F17; /* CAMBIO 1: fondo para franjas laterales/superiores cuando contain no cubre todo */
+      background: #0B0F17;
     }
     .hero-carousel-slide img {
       width: 100%;
       height: 100%;
-      object-fit: contain;          /* CAMBIO 1: antes "cover" → ahora "contain" para respetar proporciones */
+      object-fit: contain;
       object-position: center center;
       display: block;
       pointer-events: none;
@@ -302,12 +323,15 @@
     }
     .ff-success.show { display: flex; }
 
+    /* ══ RESPONSIVE ════════════════════════════════════════════════════ */
     @media (max-width: 900px) {
-      .hero-carousel-wrap { height: 70vw; min-height: 380px; }
+      .hero-carousel-outer { padding: 16px 16px 0; }
+      .hero-carousel-wrap { height: 70vw; min-height: 380px; border-radius: 14px; }
       .hero-carousel-btn { width: 36px; height: 36px; }
     }
     @media (max-width: 640px) {
-      .hero-carousel-wrap { height: 56vw; min-height: 260px; }
+      .hero-carousel-outer { padding: 10px 10px 0; }
+      .hero-carousel-wrap { height: 56vw; min-height: 260px; border-radius: 10px; }
       .hero-carousel-btn { display: none; }
       .floating-form {
         width: 92vw;
@@ -356,9 +380,6 @@
     </button>
     <ul class="nav-links" id="navLinks" role="menubar">
       <li role="none"><a href="#servicios"   class="nav-link-item" role="menuitem">Servicios</a></li>
-      <!-- CAMBIO 2: enlace "Promociones" comentado — descomentar cuando la sección esté activa
-      <li role="none"><a href="#promociones" class="nav-link-item" role="menuitem">Promociones</a></li>
-      -->
       <li role="none"><a href="#proceso"     class="nav-link-item" role="menuitem">Proceso</a></li>
       <li role="none"><a href="#faq"         class="nav-link-item" role="menuitem">FAQ</a></li>
       <li role="none"><a href="#contacto"    class="nav-link-item" role="menuitem">Contacto</a></li>
@@ -384,58 +405,62 @@
 
   <main id="contenido-principal">
 
-<!-- ══ HERO CARRUSEL ══════════════════════════════════════════════ -->
-<section class="hero-carousel-wrap" id="hero-carousel" aria-label="Campañas promocionales Saunier Duval y Vaillant">
+    <!-- ══ HERO CARRUSEL ══════════════════════════════════════════════ -->
+    <div class="hero-carousel-outer">
+      <section class="hero-carousel-wrap" id="hero-carousel" aria-label="Campañas promocionales Saunier Duval y Vaillant">
 
-  <div class="hero-carousel-track" id="heroTrack">
+        <div class="hero-carousel-track" id="heroTrack">
 
-    <div class="hero-carousel-slide" role="group" aria-label="1 de 4 — Saunier Duval Calderas">
-      <img src="assets/images/CAMP_SD_CAL.png"
-           alt="Saunier Duval — Hasta 350€ de descuento en calderas MiConnect H2 Ready. Del 4 de mayo al 30 de junio 2026."
-           loading="eager" fetchpriority="high" />
+          <div class="hero-carousel-slide" role="group" aria-label="1 de 5 — Saunier Duval Calderas">
+            <img src="assets/images/CAMP_SD_CAL.png"
+                 alt="Saunier Duval — Hasta 350€ de descuento en calderas MiConnect H2 Ready. Del 4 de mayo al 30 de junio 2026."
+                 loading="eager" fetchpriority="high" />
+          </div>
+
+          <div class="hero-carousel-slide" role="group" aria-label="2 de 5 — Saunier Duval Aire Acondicionado">
+            <img src="assets/images/CAMP_SD_AA.png"
+                 alt="Saunier Duval Aire Acondicionado VivAir Max — 150€ de descuento. Hasta el 31 de julio 2026."
+                 loading="lazy" />
+          </div>
+
+          <div class="hero-carousel-slide" role="group" aria-label="3 de 5 — Vaillant Calderas">
+            <img src="assets/images/CAMP_VAI_CAL.png"
+                 alt="Vaillant Calderas inteligentes — Hasta 350€ para cambiar de caldera. Del 4 de mayo al 30 de junio 2026."
+                 loading="lazy" />
+          </div>
+
+          <div class="hero-carousel-slide" role="group" aria-label="4 de 5 — Vaillant Aire Acondicionado">
+            <img src="assets/images/CAMP_VAI_AA.png"
+                 alt="Vaillant climaVAIR — 150€ de descuento y puesta en marcha gratuita. Hasta el 31 de julio 2026."
+                 loading="lazy" />
+          </div>
+
+          <div class="hero-carousel-slide" role="group" aria-label="5 de 5 — Técnico caldera">
+            <img src="assets/images/tecnico-caldera.png"
+                 alt="Tienclimatek — Técnicos certificados para instalación y mantenimiento de calderas."
+                 loading="lazy" />
+          </div>
+
+        </div>
+
+        <button class="hero-carousel-btn prev" id="heroPrev" aria-label="Diapositiva anterior">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+
+        <button class="hero-carousel-btn next" id="heroNext" aria-label="Diapositiva siguiente">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+
+        <div class="hero-carousel-dots" id="heroDots" aria-hidden="true"></div>
+        <div class="hero-carousel-progress" id="heroProgress"></div>
+
+      </section>
     </div>
-
-    <div class="hero-carousel-slide" role="group" aria-label="2 de 4 — Saunier Duval Aire Acondicionado">
-      <img src="assets/images/CAMP_SD_AA.png"
-           alt="Saunier Duval Aire Acondicionado VivAir Max — 150€ de descuento. Hasta el 31 de julio 2026."
-           loading="lazy" />
-    </div>
-
-    <div class="hero-carousel-slide" role="group" aria-label="3 de 4 — Vaillant Calderas">
-      <img src="assets/images/CAMP_VAI_CAL.png"
-           alt="Vaillant Calderas inteligentes — Hasta 350€ para cambiar de caldera. Del 4 de mayo al 30 de junio 2026."
-           loading="lazy" />
-    </div>
-
-    <div class="hero-carousel-slide" role="group" aria-label="4 de 4 — Vaillant Aire Acondicionado">
-      <img src="assets/images/CAMP_VAI_AA.png"
-           alt="Vaillant climaVAIR — 150€ de descuento y puesta en marcha gratuita. Hasta el 31 de julio 2026."
-           loading="lazy" />
-    </div>
-    <div class="hero-carousel-slide" role="group" aria-label="4 de 4 — Vaillant Aire Acondicionado">
-      <img src="assets/images/tecnico-caldera.png"
-           alt="Vaillant climaVAIR — 150€ de descuento y puesta en marcha gratuita. Hasta el 31 de julio 2026."
-           loading="lazy" />
-    </div>
-
-  </div>
-
-  <button class="hero-carousel-btn prev" id="heroPrev" aria-label="Diapositiva anterior">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-      <path d="M15 18l-6-6 6-6"/>
-    </svg>
-  </button>
-
-  <button class="hero-carousel-btn next" id="heroNext" aria-label="Diapositiva siguiente">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-      <path d="M9 18l6-6-6-6"/>
-    </svg>
-  </button>
-
-  <div class="hero-carousel-dots" id="heroDots" aria-hidden="true"></div>
-  <div class="hero-carousel-progress" id="heroProgress"></div>
-
-</section>
+    <!-- /HERO CARRUSEL -->
 
     <!-- ══ FORMULARIO FLOTANTE ══════════════════════════════════════════ -->
     <div class="floating-form" id="floatingForm" role="complementary" aria-label="Formulario de presupuesto rápido">
@@ -574,106 +599,6 @@
         </article>
       </div>
     </section>
-
-    <!-- ══ PROMOCIONES — CAMBIO 3: SECCIÓN COMENTADA TEMPORALMENTE ══════
-         Para reactivar: eliminar los comentarios de apertura y cierre,
-         y descomentar también el enlace "Promociones" en la <nav> (CAMBIO 2).
-    ═══════════════════════════════════════════════════════════════════════
-
-    <section id="promociones" aria-labelledby="promo-title">
-    <style>
-      #promociones { padding: 90px 0 100px; background: var(--dark2, #111620); }
-      [data-theme="light"] #promociones { background: var(--dark2, #E4EAF4); }
-      .promo-wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
-      .promo-header { text-align: center; margin-bottom: 56px; }
-      .promo-header .section-tag { justify-content: center; }
-      .promo-header h2 { font-size: clamp(1.9rem, 3.5vw, 2.9rem); font-weight: 800; margin: 8px 0 0; color: var(--off-white, #F4F6FA); }
-      [data-theme="light"] .promo-header h2 { color: #111; }
-      .promo-carousel { position: relative; width: 100%; max-width: 480px; margin: 0 auto; overflow: hidden; border-radius: 16px; }
-      .promo-track { display: flex; width: 800%; transition: transform .7s cubic-bezier(.4,0,.2,1); will-change: transform; align-items: flex-start; }
-      .promo-slide { width: 12.5%; flex-shrink: 0; display: flex; justify-content: center; align-items: flex-start; }
-      .promo-slide img { width: 100%; height: auto; display: block; object-fit: contain; pointer-events: none; -webkit-user-drag: none; user-select: none; border-radius: 12px; box-shadow: 0 8px 40px rgba(0,0,0,.35); }
-      [data-theme="light"] .promo-slide img { box-shadow: 0 4px 24px rgba(0,0,0,.12); }
-      .promo-progress-wrap { margin-top: 20px; height: 3px; background: rgba(255,255,255,.08); border-radius: 2px; overflow: hidden; }
-      [data-theme="light"] .promo-progress-wrap { background: rgba(0,0,0,.08); }
-      .promo-progress-bar { height: 100%; width: 0%; border-radius: 2px; transition: width linear; background: linear-gradient(90deg, #E2001A 0%, #007A3D 100%); }
-      .promo-indicators { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 18px; flex-wrap: wrap; }
-      .promo-indicator { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.18); transition: width .3s, border-radius .3s, background .3s; flex-shrink: 0; }
-      [data-theme="light"] .promo-indicator { background: rgba(0,0,0,.12); }
-      .promo-indicator.active { width: 20px; border-radius: 3px; }
-      .promo-indicator.active.brand-sd { background: #E2001A; }
-      .promo-indicator.active.brand-v  { background: #007A3D; }
-      .promo-ind-sep { width: 1px; height: 12px; background: rgba(255,255,255,.14); border-radius: 1px; margin: 0 4px; flex-shrink: 0; }
-      [data-theme="light"] .promo-ind-sep { background: rgba(0,0,0,.1); }
-      .promo-slide-info { text-align: center; margin-top: 14px; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted, #8090aa); min-height: 18px; }
-      .promo-cta-row { display: flex; justify-content: center; margin-top: 36px; }
-      .promo-cta-main { display: inline-flex; align-items: center; gap: 9px; padding: 14px 36px; border-radius: 12px; font-size: 14px; font-weight: 700; letter-spacing: .04em; text-decoration: none; background: var(--blue, #1A7EC8); color: #fff; transition: opacity .18s, transform .15s, box-shadow .18s; }
-      .promo-cta-main:hover { opacity: .9; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(26,126,200,.4); }
-      @media (max-width: 900px) { #promociones { padding: 60px 0 70px; } .promo-wrap { padding: 0 20px; } .promo-carousel { border-radius: 12px; max-width: 400px; } }
-      @media (max-width: 480px) { .promo-wrap { padding: 0 12px; } .promo-carousel { border-radius: 8px; max-width: 100%; } }
-    </style>
-      <div class="promo-wrap">
-        <div class="promo-header reveal">
-          <p class="section-tag">Ofertas vigentes</p>
-          <h2 id="promo-title">Campañas oficiales<br>de nuestras marcas</h2>
-        </div>
-        <div class="promo-carousel reveal reveal-delay-1" id="promoCarousel" role="region" aria-label="Campañas promocionales Saunier Duval y Vaillant" aria-roledescription="carrusel">
-          <div class="promo-track" id="promoTrack">
-            <div class="promo-slide" role="group" aria-roledescription="diapositiva" aria-label="1 de 5 — Saunier Duval Calderas">
-              <img src="assets/images/CAMP_SD_CAL.png" alt="Saunier Duval — Hasta 350€ con tu nueva caldera. Del 4 de mayo al 30 de junio de 2026." loading="eager" fetchpriority="high" />
-            </div>
-            <div class="promo-slide" role="group" aria-roledescription="diapositiva" aria-label="2 de 5 — Saunier Duval Calderas condiciones">
-              <img src="assets/images/CAMP_SD_CAL1.png" alt="Saunier Duval Calderas — Condiciones. Código INCQ2/26." loading="lazy" />
-            </div>
-            <div class="promo-slide" role="group" aria-roledescription="diapositiva" aria-label="3 de 5 — Saunier Duval Aire Acondicionado">
-              <img src="assets/images/CAMP_SD_AA.png" alt="Saunier Duval Aire Acondicionado — 150€ de descuento. Hasta el 31 de julio 2026." loading="lazy" />
-            </div>
-            <div class="promo-slide" role="group" aria-roledescription="diapositiva" aria-label="4 de 5 — Vaillant Calderas">
-              <img src="assets/images/CAMP_VAI_CAL.png" alt="Vaillant — Hasta 350€ para cambiar de caldera. Del 4 de mayo al 30 de junio 2026." loading="lazy" />
-            </div>
-            <div class="promo-slide" role="group" aria-roledescription="diapositiva" aria-label="5 de 5 — Vaillant Aire Acondicionado">
-              <img src="assets/images/CAMP_VAI_AA.png" alt="Vaillant — 150€ de descuento y puesta en marcha gratuita. Hasta el 31 de julio 2026." loading="lazy" />
-            </div>
-          </div>
-          <div class="promo-progress-wrap" aria-hidden="true"><div class="promo-progress-bar" id="promoProgress"></div></div>
-        </div>
-        <div class="promo-indicators" id="promoIndicators" aria-hidden="true">
-          <div class="promo-indicator brand-sd active" data-idx="0"></div>
-          <div class="promo-indicator brand-sd"         data-idx="1"></div>
-          <div class="promo-ind-sep"></div>
-          <div class="promo-indicator brand-sd"         data-idx="2"></div>
-          <div class="promo-ind-sep"></div>
-          <div class="promo-indicator brand-v"          data-idx="3"></div>
-          <div class="promo-ind-sep"></div>
-          <div class="promo-indicator brand-v"          data-idx="4"></div>
-        </div>
-        <p class="promo-slide-info" id="promoSlideInfo" aria-live="polite"></p>
-        <div class="promo-cta-row">
-          <a href="#contacto" class="promo-cta-main">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-            Solicitar presupuesto y aprovechar la promoción
-          </a>
-        </div>
-      </div>
-      <script>
-      (function () {
-        var TOTAL = 5, INTERVAL = 2500, current = 0, paused = false, progTimer = null;
-        var track = document.getElementById('promoTrack'), progress = document.getElementById('promoProgress');
-        var info = document.getElementById('promoSlideInfo'), carousel = document.getElementById('promoCarousel');
-        var indicators = document.querySelectorAll('#promoIndicators .promo-indicator');
-        var LABELS = ['Saunier Duval · Calderas','Saunier Duval · Calderas · Condiciones','Saunier Duval · Aire Acondicionado','Vaillant · Calderas','Vaillant · Aire Acondicionado'];
-        function goTo(idx) { current = ((idx % TOTAL) + TOTAL) % TOTAL; track.style.transform = 'translateX(-' + (current * 12.5) + '%)'; indicators.forEach(function(d,i){ d.classList.toggle('active', i === current); }); if (info) info.textContent = LABELS[current]; restartProgress(); }
-        function restartProgress() { clearTimeout(progTimer); if (!progress) return; progress.style.transition = 'none'; progress.style.width = '0%'; void progress.offsetWidth; if (!paused) { progress.style.transition = 'width ' + INTERVAL + 'ms linear'; progress.style.width = '100%'; progTimer = setTimeout(function(){ if (!paused) goTo(current + 1); }, INTERVAL); } }
-        function pause() { if (paused) return; paused = true; clearTimeout(progTimer); if (progress) { var r = progress.getBoundingClientRect(), w = progress.parentElement.getBoundingClientRect(); progress.style.transition = 'none'; progress.style.width = (w.width > 0 ? (r.width/w.width*100).toFixed(2) : 0) + '%'; } }
-        function resume() { if (!paused) return; paused = false; if (progress) { var r = progress.getBoundingClientRect(), w = progress.parentElement.getBoundingClientRect(); var pct = w.width > 0 ? r.width/w.width : 0; var rem = Math.max(300, Math.round(INTERVAL * (1 - pct))); progress.style.transition = 'width ' + rem + 'ms linear'; progress.style.width = '100%'; clearTimeout(progTimer); progTimer = setTimeout(function(){ if (!paused) goTo(current + 1); }, rem); } }
-        if (carousel) { carousel.addEventListener('mouseenter', pause); carousel.addEventListener('mouseleave', resume); var tx0 = 0; carousel.addEventListener('touchstart', function(e){ tx0 = e.touches[0].clientX; pause(); }, { passive: true }); carousel.addEventListener('touchend', function(e){ var dx = e.changedTouches[0].clientX - tx0; if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1)); resume(); }, { passive: true }); }
-        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { track.style.transition = 'none'; INTERVAL = 9000; }
-        goTo(0);
-      })();
-      </script>
-    </section>
-
-    ══ FIN SECCIÓN PROMOCIONES COMENTADA ══ -->
 
     <!-- ══ PROCESS ═════════════════════════════════════════════════════ -->
     <section class="process" id="proceso" aria-labelledby="process-title">
