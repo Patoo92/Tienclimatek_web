@@ -1,0 +1,15 @@
+{
+  "name": "Tienclimatek",
+  "short_name": "Tienclimatek",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1A7EC8",
+  "theme_color": "#1A7EC8",
+  "icons": [
+    {
+      "src": "assets/images/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
