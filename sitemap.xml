@@ -22,4 +22,43 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://tienclimatek.eus/" />
   </url>
 
+  <url>
+    <loc>https://tienclimatek.eus/quienes-somos/</loc>
+    <lastmod>2026-05-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tienclimatek.eus/quienes-somos/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tienclimatek.eus/quienes-somos/" />
+  </url>
+
+  <url>
+    <loc>https://tienclimatek.eus/preguntas-frecuentes/</loc>
+    <lastmod>2026-05-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://tienclimatek.eus/preguntas-frecuentes/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tienclimatek.eus/preguntas-frecuentes/" />
+  </url>
+
+  <url>
+    <loc>https://tienclimatek.eus/privacidad/</loc>
+    <lastmod>2026-05-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://tienclimatek.eus/cookies/</loc>
+    <lastmod>2026-05-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://tienclimatek.eus/aviso-legal/</loc>
+    <lastmod>2026-05-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
 </urlset>
