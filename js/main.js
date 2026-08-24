@@ -61,7 +61,7 @@
 
   /* ─── HERO CAROUSEL ──────────────────────────────────────────── */
   (function () {
-    const TOTAL = 5, INTERVAL = 4000;
+    const TOTAL = 3, INTERVAL = 4000;
     let current = 0, paused = false, progTimer = null;
     const track    = document.getElementById('heroTrack');
     const progress = document.getElementById('heroProgress');
