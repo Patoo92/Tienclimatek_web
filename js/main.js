@@ -61,7 +61,7 @@
 
   /* ─── HERO CAROUSEL ──────────────────────────────────────────── */
   (function () {
-    const TOTAL = 3, INTERVAL = 4000;
+    const INTERVAL = 4000;
     let current = 0, paused = false, progTimer = null;
     const track    = document.getElementById('heroTrack');
     const progress = document.getElementById('heroProgress');
@@ -70,6 +70,8 @@
     const nextBtn  = document.getElementById('heroNext');
     const carousel = document.getElementById('hero-carousel');
     if (!track || !dotsWrap) return;
+    const TOTAL = track.children.length;
+    if (!TOTAL) return;
 
     const dots = [];
     for (let i = 0; i < TOTAL; i++) {
